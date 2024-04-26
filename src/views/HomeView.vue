@@ -1,9 +1,11 @@
 <script setup lang="ts">
-let current_file = ref<File>('');
+import {ref} from 'vue';
+
+let current_file = ref<File>(null);
 
 // 文件上传
-function handleUpload(event) {
-  current_file.value = event.target.files[0];
+function handleUpload(event: Event) {
+  current_file.value = (event?.target as HTMLInputElement)?.files[0];
   if (!current_file.value) {
     return;
   }
@@ -13,7 +15,7 @@ function handleUpload(event) {
 }
 
 // 重新加载
-function handleReload(event) {
+function handleReload() {
   if (!current_file.value) {
     return;
   }
@@ -25,13 +27,23 @@ function handleReload(event) {
 let document_container = ref<HTMLElement>(null);
 
 // 保存测试
-async function handleSave(event) {
-  const file = await showSaveFilePicker({types: [{description: "HTML File", accept: {"text/html": [".html"]}}]});
+async function handleSave() {
+  const file = await showSaveFilePicker({
+    types: [
+      {
+        description: "HTML File",
+        accept: {
+          "text/html": [".html"]
+        }
+      }
+    ]
+  });
   const stream = await file.createWritable();
 
   await stream.write(document_container.value.innerHTML);
   await stream.close();
 }
+
 </script>
 
 <template>
