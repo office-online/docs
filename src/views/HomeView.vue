@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {parseAsync} from '@online-office/parser';
 import {ref} from 'vue';
 
 let current_file = ref<File>(null);
@@ -10,8 +11,8 @@ function handleUpload(event: Event) {
     return;
   }
   // 下拉框重置
-
-  console.log(current_file.value);
+  let result = parseAsync(current_file.value);
+  console.log(result);
 }
 
 // 重新加载
