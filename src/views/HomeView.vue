@@ -2,16 +2,16 @@
 import {parseAsync} from '@online-office/parser';
 import {ref} from 'vue';
 
-let current_file = ref<File>(null);
+let current_file = ref<File>();
 
 // 文件上传
-function handleUpload(event: Event) {
+async function handleUpload(event: Event) {
   current_file.value = (event?.target as HTMLInputElement)?.files[0];
   if (!current_file.value) {
     return;
   }
   // 下拉框重置
-  let result = parseAsync(current_file.value);
+  let result = await parseAsync(current_file.value);
   console.log(result);
 }
 
@@ -25,7 +25,7 @@ function handleReload() {
 }
 
 // document容器
-let document_container = ref<HTMLElement>(null);
+let document_container = ref<HTMLElement>();
 
 // 保存测试
 async function handleSave() {
